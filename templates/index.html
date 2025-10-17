@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}QuickBite - Indian Recipe Assistant{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1><i class="fas fa-utensils me-3"></i>QuickBite</h1>
+        <p class="lead">Your AI-powered Indian recipe assistant that suggests personalized recipes based on your available ingredients</p>
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-user-plus me-2"></i>Get Started
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+        {% else %}
+            <a href="{{ url_for('chat_page') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-comments me-2"></i>Start Cooking
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <h5 class="card-title">AI-Powered Recommendations</h5>
+                    <p class="card-text">Our advanced machine learning algorithms analyze your ingredients and suggest the most suitable Indian recipes using Word2Vec and TF-IDF techniques.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-comments feature-icon"></i>
+                    <h5 class="card-title">Conversational Interface</h5>
+                    <p class="card-text">Chat naturally with our AI assistant. Simply list your ingredients and get instant recipe suggestions with detailed cooking instructions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-utensils feature-icon"></i>
+                    <h5 class="card-title">Authentic Indian Cuisine</h5>
+                    <p class="card-text">Discover traditional and modern Indian recipes from our curated database, featuring dishes from across the diverse regions of India.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h2 class="mb-4">How It Works</h2>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">1</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6>Sign Up & Login</h6>
+                            <p class="text-muted small">Create your account to start your culinary journey</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">2</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6>List Your Ingredients</h6>
+                            <p class="text-muted small">Tell us what ingredients you have available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">3</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6>Get Recipe Suggestions</h6>
+                            <p class="text-muted small">Receive personalized recipe recommendations</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">4</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6>Start Cooking</h6>
+                            <p class="text-muted small">Follow detailed instructions and enjoy your meal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-robot feature-icon"></i>
+                    <h5 class="card-title">Powered by Advanced AI</h5>
+                    <p class="card-text">Our system uses cutting-edge natural language processing and machine learning to understand your ingredient preferences and suggest the most relevant recipes.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Word2Vec for ingredient similarity</li>
+                        <li><i class="fas fa-check text-success me-2"></i>TF-IDF for recipe matching</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Named Entity Recognition</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Cosine similarity algorithms</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

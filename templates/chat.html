@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Chat - QuickBite{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-robot me-2"></i>QuickBite Assistant
+                        <small class="float-end">Welcome, {{ user.username }}!</small>
+                    </h4>
+                </div>
+                <div class="card-body p-0">
+                    <div id="chat-container" class="chat-container">
+                        <div class="message bot-message">
+                            <strong><i class="fas fa-robot me-2"></i>QuickBite:</strong>
+                            Hello! I'm your Indian recipe assistant. What ingredients do you have available? Please list them separated by commas.
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form id="chat-form">
+                        <div class="input-group">
+                            <input type="text" id="message-input" class="form-control chat-input" 
+                                   placeholder="Type your ingredients here (e.g., rice, tomato, onion)..." 
+                                   autocomplete="off">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatContainer = document.getElementById('chat-container');
+    const messageInput = document.getElementById('message-input');
+    const chatForm = document.getElementById('chat-form');
+    
+    // Auto-scroll to bottom
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Add message to chat
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        
+        if (isUser) {
+            messageDiv.innerHTML = `<strong><i class="fas fa-user me-2"></i>You:</strong> ${message}`;
+        } else {
+            messageDiv.innerHTML = `<strong><i class="fas fa-robot me-2"></i>QuickBite:</strong> ${message}`;
+        }
+        
+        chatContainer.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // Send message
+    async function sendMessage(message) {
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const data = await response.json();
+            
+            // Add bot response
+            addMessage(data.response);
+            
+            // Handle follow-up if present
+            if (data.has_follow_up && data.follow_up) {
+                setTimeout(() => {
+                    addMessage(data.follow_up);
+                }, 1000);
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Sorry, I encountered an error. Please try again.');
+        }
+    }
+    
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        
+        if (message) {
+            addMessage(message, true);
+            messageInput.value = '';
+            sendMessage(message);
+        }
+    });
+    
+    // Handle Enter key
+    messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+    
+    // Focus on input
+    messageInput.focus();
+});
+</script>
+{% endblock %}
