@@ -35,4 +35,4 @@ We welcome contributions! Feel free to fork the repository, open an issue, or su
 
 📞 Contact:
 
-For any questions or suggestions, contact: howladarkunal@gmail.com
+For any questions or suggestions, contact: harshjha@gmail.com
